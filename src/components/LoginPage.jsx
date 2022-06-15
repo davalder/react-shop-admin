@@ -13,9 +13,17 @@ export default function LoginPage() {
     const password = passwordRef.current.value;
 
     console.log(email, password);
-    auth.signIn(email, password).then(() => {
-      console.log('Login success');
-    });
+    auth
+      .signIn(email, password)
+      .then(() => {
+        console.log('Login success');
+      })
+      .catch((error) => {
+        // console.log(error.response);
+        if (error.response.data.statusCode === 401) {
+          console.log('Unauthorized');
+        }
+      });
   };
 
   return (
