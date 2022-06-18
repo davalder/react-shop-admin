@@ -7,7 +7,7 @@ export default function LoginPage() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const auth = useAuth();
-  const router =  useRouter();
+  const router = useRouter();
 
   const submitHander = (event) => {
     event.preventDefault();

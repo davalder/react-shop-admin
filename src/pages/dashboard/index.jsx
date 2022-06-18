@@ -1,22 +1,57 @@
-const people = [
-  {
-    name: 'Jane Cooper',
-    title: 'Regional Paradigm Technician',
-    department: 'Optimization',
-    role: 'Admin',
-    email: 'jane.cooper@example.com',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-];
+import { useEffect, useState } from 'react';
 import endPoints from '@services/api';
 import useFetch from '@hooks/useFetch';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 
-const PRODUCT_LIMIT = 15;
-const PRODUCT_OFFSET = 15;
+const PRODUCT_LIMIT = 0;
+const PRODUCT_OFFSET = 0;
+const numberProductsView = 5;
 
 export default function Dashboard() {
-  const products = useFetch(endPoints.products.getProducts(PRODUCT_LIMIT, PRODUCT_OFFSET));
-  console.log(products);
+  const [products, setProducts] = useState([]);
+  const [pagination, setPagination] = useState(numberProductsView);
+  const [firtsViewProduct, setFirtsViewProduct] = useState(1);
+  const allProducts = useFetch(endPoints.products.getProducts(PRODUCT_LIMIT, PRODUCT_OFFSET));
+  const allProductslength = allProducts.length;
+  const numberPages = Math.ceil(allProductslength / numberProductsView);
+  const currentPage = pagination / numberProductsView;
+
+  useEffect(() => {
+    let viewProducts = allProducts.slice(pagination - numberProductsView, pagination);
+    setFirtsViewProduct(pagination - numberProductsView + 1);
+    setProducts(viewProducts);
+    console.log(pagination);
+    console.log('Lo hice');
+  }, [pagination, allProducts]);
+
+  const nextHander = () => {
+    setPagination(pagination + numberProductsView);
+  };
+
+  const previousHander = () => {
+    setPagination(pagination - numberProductsView);
+  };
+
+  const goToPageHander = (numberPage) => {
+    setPagination(numberPage * numberProductsView);
+  };
+
+  const node1 = [];
+  for (let i = currentPage < 4 ? 1 : currentPage - 3; i < (currentPage < numberPages - 3 ? (currentPage < 4 ? 8 : currentPage + 4) : numberPages + 1); i++) {
+    node1.push(
+      <button
+        onClick={() => goToPageHander(i)}
+        aria-current="page"
+        className={
+          i === currentPage
+            ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium'
+            : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50 hidden md:inline-flex relative items-center px-4 py-2 border text-sm font-medium'
+        }
+      >
+        {i}
+      </button>
+    );
+  }
 
   return (
     <>
@@ -82,6 +117,85 @@ export default function Dashboard() {
                 </tbody>
               </table>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+        <div className="flex-1 flex justify-between sm:hidden">
+          {pagination > numberProductsView ? (
+            <button onClick={previousHander} className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+              Previous
+            </button>
+          ) : (
+            <button
+              onClick={previousHander}
+              className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+              disabled
+            >
+              Previous
+            </button>
+          )}
+          {pagination < allProductslength ? (
+            <button onClick={nextHander} className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+              Next
+            </button>
+          ) : (
+            <button
+              onClick={nextHander}
+              className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+              disabled
+            >
+              Next
+            </button>
+          )}
+        </div>
+        <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm text-gray-700">
+              Showing <span className="font-medium">{firtsViewProduct}</span> to <span className="font-medium">{pagination}</span> of <span className="font-medium">{allProductslength}</span> results
+            </p>
+          </div>
+          <div>
+            <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+              {pagination > numberProductsView ? (
+                <button
+                  onClick={previousHander}
+                  className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                >
+                  <span className="sr-only">Previous</span>
+                  <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+                </button>
+              ) : (
+                <button
+                  onClick={previousHander}
+                  className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                  disabled
+                >
+                  <span className="sr-only">Previous</span>
+                  <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+                </button>
+              )}
+
+              {/* Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" */}
+              {node1}
+
+              {pagination < allProductslength ? (
+                <button onClick={nextHander} className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                  <span className="sr-only">Next</span>
+                  <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+                </button>
+              ) : (
+                <button
+                  onClick={nextHander}
+                  className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                  disabled
+                >
+                  <span className="sr-only">Next</span>
+                  <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+                </button>
+              )}
+            </nav>
           </div>
         </div>
       </div>
