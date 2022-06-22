@@ -28,4 +28,4 @@ const updateProduct = async (id, body) => {
   return response.data;
 };
 
-export { addProduct, deleteProduct,updateProduct };
+export { addProduct, deleteProduct, updateProduct };
