@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import endPoints from '@services/api';
 import useFetch from '@hooks/useFetch';
+import { Chart } from '@common/Chart';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 
 const PRODUCT_LIMIT = 0;
@@ -20,8 +21,6 @@ export default function Dashboard() {
     let viewProducts = allProducts.slice(pagination - numberProductsView, pagination);
     setFirtsViewProduct(pagination - numberProductsView + 1);
     setProducts(viewProducts);
-    console.log(pagination);
-    console.log('Lo hice');
   }, [pagination, allProducts]);
 
   const nextHander = () => {
@@ -34,6 +33,23 @@ export default function Dashboard() {
 
   const goToPageHander = (numberPage) => {
     setPagination(numberPage * numberProductsView);
+  };
+
+  // Chart
+  const categoryNames = products?.map((product) => product.category);
+  const categoryCount = categoryNames?.map((category) => category.name);
+
+  const countOccurrences = (arr) => arr.reduce((prev, curr) => ((prev[curr] = ++prev[curr] || 1), prev), {});
+
+  const data = {
+    datasets: [
+      {
+        label: 'Categories',
+        data: countOccurrences(categoryCount),
+        borderWidth: 2,
+        backgroundColor: ['#ffbb11', '#c0c0c0', '#50AF95', '#f3ba2f', '#2a71d0'],
+      },
+    ],
   };
 
   const node1 = [];
@@ -55,6 +71,7 @@ export default function Dashboard() {
 
   return (
     <>
+      <Chart className="mb-8 mt-2" chartData={data} />
       <div className="flex flex-col">
         <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
