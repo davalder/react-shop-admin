@@ -23,15 +23,15 @@ export default function Dashboard() {
     setProducts(viewProducts);
   }, [pagination, allProducts]);
 
-  const nextHander = () => {
+  const nextHandle = () => {
     setPagination(pagination + numberProductsView);
   };
 
-  const previousHander = () => {
+  const previousHandle = () => {
     setPagination(pagination - numberProductsView);
   };
 
-  const goToPageHander = (numberPage) => {
+  const goToPageHandle = (numberPage) => {
     setPagination(numberPage * numberProductsView);
   };
 
@@ -39,7 +39,7 @@ export default function Dashboard() {
   for (let i = currentPage < 4 ? 1 : currentPage - 3; i < (currentPage < numberPages - 3 ? (currentPage < 4 ? 8 : currentPage + 4) : numberPages + 1); i++) {
     node1.push(
       <button
-        onClick={() => goToPageHander(i)}
+        onClick={() => goToPageHandle(i)}
         aria-current="page"
         className={
           i === currentPage
@@ -141,12 +141,12 @@ export default function Dashboard() {
       <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
         <div className="flex-1 flex justify-between sm:hidden">
           {pagination > numberProductsView ? (
-            <button onClick={previousHander} className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+            <button onClick={previousHandle} className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
               Previous
             </button>
           ) : (
             <button
-              onClick={previousHander}
+              onClick={previousHandle}
               className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
               disabled
             >
@@ -154,12 +154,12 @@ export default function Dashboard() {
             </button>
           )}
           {pagination < allProductslength ? (
-            <button onClick={nextHander} className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+            <button onClick={nextHandle} className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
               Next
             </button>
           ) : (
             <button
-              onClick={nextHander}
+              onClick={nextHandle}
               className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
               disabled
             >
@@ -177,7 +177,7 @@ export default function Dashboard() {
             <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
               {pagination > numberProductsView ? (
                 <button
-                  onClick={previousHander}
+                  onClick={previousHandle}
                   className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                 >
                   <span className="sr-only">Previous</span>
@@ -185,7 +185,7 @@ export default function Dashboard() {
                 </button>
               ) : (
                 <button
-                  onClick={previousHander}
+                  onClick={previousHandle}
                   className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                   disabled
                 >
@@ -198,13 +198,13 @@ export default function Dashboard() {
               {node1}
 
               {pagination < allProductslength ? (
-                <button onClick={nextHander} className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <button onClick={nextHandle} className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                   <span className="sr-only">Next</span>
                   <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
                 </button>
               ) : (
                 <button
-                  onClick={nextHander}
+                  onClick={nextHandle}
                   className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                   disabled
                 >

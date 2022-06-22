@@ -1,22 +1,19 @@
 import { useState, Fragment } from 'react';
 import { CheckIcon } from '@heroicons/react/solid';
-import Modal from '@common/Modal'
-
+import Modal from '@common/Modal';
+import FormProduct from '@components/FormProduct';
 
 export default function products() {
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [products, setProducts] = useState([]);
 
   return (
     <>
       <div className="lg:flex lg:items-center lg:justify-between mb-8">
         <div className="flex-1 min-w-0">
-          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-            List of Products
-          </h2>
+          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">List of Products</h2>
         </div>
         <div className="mt-5 flex lg:mt-0 lg:ml-4">
-
           <span className="sm:ml-3">
             <button
               type="button"
@@ -96,9 +93,7 @@ export default function products() {
         </div>
       </div>
       <Modal open={open} setOpen={setOpen}>
-        <h1>
-            Hola Mundo
-        </h1>
+        <FormProduct />
       </Modal>
     </>
   );
