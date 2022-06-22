@@ -35,23 +35,6 @@ export default function Dashboard() {
     setPagination(numberPage * numberProductsView);
   };
 
-  // Chart
-  const categoryNames = products?.map((product) => product.category);
-  const categoryCount = categoryNames?.map((category) => category.name);
-
-  const countOccurrences = (arr) => arr.reduce((prev, curr) => ((prev[curr] = ++prev[curr] || 1), prev), {});
-
-  const data = {
-    datasets: [
-      {
-        label: 'Categories',
-        data: countOccurrences(categoryCount),
-        borderWidth: 2,
-        backgroundColor: ['#ffbb11', '#c0c0c0', '#50AF95', '#f3ba2f', '#2a71d0'],
-      },
-    ],
-  };
-
   const node1 = [];
   for (let i = currentPage < 4 ? 1 : currentPage - 3; i < (currentPage < numberPages - 3 ? (currentPage < 4 ? 8 : currentPage + 4) : numberPages + 1); i++) {
     node1.push(
@@ -68,6 +51,23 @@ export default function Dashboard() {
       </button>
     );
   }
+
+  // Chart
+  const categoryNames = products?.map((product) => product.category);
+  const categoryCount = categoryNames?.map((category) => category.name);
+
+  const countOccurrences = (arr) => arr.reduce((prev, curr) => ((prev[curr] = ++prev[curr] || 1), prev), {});
+
+  const data = {
+    datasets: [
+      {
+        label: 'Categories',
+        data: countOccurrences(categoryCount),
+        borderWidth: 2,
+        backgroundColor: ['#ffbb11', '#c0c0c0', '#50AF95', '#f3ba2f', '#2a71d0'],
+      },
+    ],
+  };
 
   return (
     <>
